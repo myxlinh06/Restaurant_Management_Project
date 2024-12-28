@@ -1,8 +1,10 @@
 package servlets;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,8 +12,14 @@ import dao.MenuDao;
 import entities.MenuItem;
 
 @WebServlet("/menu")
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10,      // 10MB
+    maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class MenuServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String IMAGE_DIR = "images"; // Thư mục lưu ảnh
     MenuDao menuDAO = new MenuDao();  
 
     @Override
@@ -38,21 +46,23 @@ public class MenuServlet extends HttpServlet {
         double gia = Double.parseDouble(request.getParameter("gia"));
         String moTa = request.getParameter("mo_ta");
         String nguyenLieu = request.getParameter("nguyen_lieu");
-        String hinhAnh = request.getParameter("hinh_anh");
         String category = request.getParameter("category");
 
+        // Xử lý upload file ảnh
+        Part filePart = request.getPart("hinh_anh"); // 'hinh_anh' là tên input file
+        String fileName = uploadImage(filePart, request);
 
         // Kiểm tra thông tin trước khi thêm
-        if (tenMon == null || gia <= 0 || moTa == null || nguyenLieu == null||  hinhAnh == null || category == null) {
+        if (tenMon == null || gia <= 0 || moTa == null || nguyenLieu == null || fileName == null || category == null) {
             forwardToProductPage(request, response, "invalid_data");
             return;
         }
 
-        MenuItem menuItem = new MenuItem(0, tenMon, gia, moTa, nguyenLieu, hinhAnh, category);
+        MenuItem menuItem = new MenuItem(0, tenMon, gia, moTa, nguyenLieu, fileName, category);
         boolean success = menuDAO.addMenuItem(menuItem);
 
         if (success) {
-        	 listAllMenuItems(request, response);
+            listAllMenuItems(request, response);
         } else {
             forwardToProductPage(request, response, "failure");
         }
@@ -64,23 +74,67 @@ public class MenuServlet extends HttpServlet {
         double gia = Double.parseDouble(request.getParameter("gia"));
         String moTa = request.getParameter("mo_ta");
         String nguyenLieu = request.getParameter("nguyen_lieu");
-        String hinhAnh = request.getParameter("hinh_anh");
         String category = request.getParameter("category");
 
+        // Xử lý upload file ảnh (có thể không thay đổi ảnh)
+        Part filePart = request.getPart("hinh_anh");
+        String fileName = uploadImage(filePart, request);
 
         // Kiểm tra thông tin trước khi cập nhật
-        if (id <= 0 || tenMon == null || gia <= 0 || moTa == null || nguyenLieu == null || hinhAnh == null || category == null) {
+        if (id <= 0 || tenMon == null || gia <= 0 || moTa == null || nguyenLieu == null || category == null) {
             forwardToProductPage(request, response, "invalid_data");
             return;
-        }MenuItem menuItem = new MenuItem(id, tenMon, gia, moTa, nguyenLieu, hinhAnh, category);
+        }
+
+        MenuItem menuItem = new MenuItem(id, tenMon, gia, moTa, nguyenLieu, fileName, category);
         boolean success = menuDAO.updateMenuItem(menuItem);
 
         if (success) {
-        	 listAllMenuItems(request, response);
+            listAllMenuItems(request, response);
         } else {
             forwardToProductPage(request, response, "failure");
         }
     }
+
+    private String uploadImage(Part filePart, HttpServletRequest request) throws IOException {
+        if (filePart == null || filePart.getSize() <= 0) {
+            return null;
+        }
+
+        // Lấy đường dẫn thư mục gốc của dự án (webapp/images)
+        String appPath = request.getServletContext().getRealPath("");
+        String uploadPath = appPath + File.separator + IMAGE_DIR;
+
+        // Tạo thư mục nếu chưa tồn tại
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+
+        // Lấy tên file
+        String fileName = extractFileName(filePart);
+
+        // Đường dẫn lưu file
+        String filePath = uploadPath + File.separator + fileName;
+
+        // Lưu file vào thư mục
+        filePart.write(filePath);
+
+        return fileName; // Trả về tên file để lưu vào cơ sở dữ liệu
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        for (String content : contentDisp.split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.indexOf("=") + 2, content.length() - 1);
+            }
+        }
+        return null;
+    }
+
+
+
 
     private void deleteMenuItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));

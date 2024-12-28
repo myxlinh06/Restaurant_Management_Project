@@ -2,7 +2,50 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <title>Login</title>
+
+</head>
+<body>
+	<div class="container">
+		<h1>Đăng nhập</h1>
+		<p>Nếu bạn có tài khoản, hãy đăng nhập dưới đây.</p>
+		<form action="<%=request.getContextPath()%>/login" method="post"
+			name="frm-login">
+			<div class="form-group">
+				<label for="username">Email *</label> <input type="text"
+					id="username" name="username" placeholder="Email" required>
+				<div id="usernameError" class="error">* Bắt buộc</div>
+			</div>
+			<div class="form-group">
+				<label for="password">Mật khẩu *</label> <input type="password"
+					id="password" name="password" placeholder="Mật khẩu" required>
+				<div id="passwordError" class="error"></div>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn">Đăng nhập</button>
+				<a href="<%=request.getContextPath()%>/register">Đăng kí ngay!</a>
+			</div>
+			<div class="social-login">
+				<!-- Link to Facebook -->
+				<a href="https://www.facebook.com" target="_blank"
+					title="Đăng nhập với Facebook"> <img
+					src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+					alt="Facebook" width="48">
+				</a>
+
+				<!-- Link to Google -->
+				<a href="https://accounts.google.com/signin" target="_blank"
+					title="Đăng nhập với Google"> <img
+					src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
+					alt="Google" width="48">
+				</a>
+			</div>
+
+		</form>
+	</div>
+</body>
+
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -77,13 +120,18 @@ body {
 }
 
 .social-login {
-	margin-top: 20px;
+	display: flex;
+	gap: 10px; /* Khoảng cách giữa các icon */
+	justify-content: center;
+	align-items: center;
 }
 
-.social-login img {
-	width: 40px;
-	margin: 0 10px;
-	cursor: pointer;
+.social-login a img {
+	transition: transform 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.social-login a img:hover {
+	transform: scale(1.1); /* Phóng to khi di chuột */
 }
 
 .error {
@@ -91,33 +139,4 @@ body {
 	font-size: 12px;
 }
 </style>
-</head>
-<body>
-	<div class="container">
-		<h1>Đăng nhập</h1>
-		<p>Nếu bạn có tài khoản, hãy đăng nhập dưới đây.</p>
-		<form action="<%=request.getContextPath()%>/login" method="post"
-			name="frm-login">
-			<div class="form-group">
-				<label for="username">Email *</label> <input type="text"
-					id="username" name="username" placeholder="Email" required>
-				<div id="usernameError" class="error">* Bắt buộc</div>
-			</div>
-			<div class="form-group">
-				<label for="password">Mật khẩu *</label> <input type="password"
-					id="password" name="password" placeholder="Mật khẩu" required>
-				<div id="passwordError" class="error"></div>
-			</div>
-			<div class="form-actions">
-				<button type="submit" class="btn">Đăng nhập</button>
-				<a href="<%=request.getContextPath()%>/forgot-password">Mất mật khẩu?</a> 
-				<a href="<%=request.getContextPath()%>/register">Đăng kí ngay!</a>
-			</div>
-			<div class="social-login">
-				<img src="https://path-to-facebook-icon" alt="Facebook"> <img
-					src="https://path-to-google-icon" alt="Google">
-			</div>
-		</form>
-	</div>
-</body>
 </html>

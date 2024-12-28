@@ -11,6 +11,60 @@
     <title>Trang Quản Lý Nhà Hàng</title>
     
 </head>
+
+<body>
+
+    <header>
+        <h1>Trang Quản Lý Nhà Hàng</h1>
+        <p>Chào mừng bạn đến với hệ thống quản lý nhà hàng của chúng tôi!</p>
+    </header>
+
+    <nav>
+        <a href="#">Trang Chủ</a>
+        <a href="<%=request.getContextPath()%>/menu">Quản Lý Món Ăn</a>
+        <a href="<%=request.getContextPath()%>/phong">Đặt Bàn</a>
+        <a href="#">Quản Lý Đơn Hàng</a>
+        <a href="#">Quản Lý Hóa Đơn</a> 
+        <a href="#">Doanh Thu</a>
+        <a href="<%=request.getContextPath()%>/employee">Nhân Viên</a>
+        <a href="<%=request.getContextPath()%>/customer">Khách hàng</a>
+        <a href="<%=request.getContextPath()%>/restaurant">Đặt món</a>
+        
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Thông Báo</h2>
+            <p>Hệ thống đang vận hành ổn định. Chưa có đơn hàng chưa được xử lý.</p>
+        </div>
+
+        <div class="card">
+            <h2>Quản Lý Món Ăn</h2>
+            <p>Thêm, sửa, xóa các món ăn trong menu nhà hàng của bạn.</p>
+            <a href="<%=request.getContextPath()%>/menu" class="button">Quản Lý Món Ăn</a>
+        </div>
+
+        <div class="card">
+            <h2>Quản Lý Đặt Bàn</h2>
+            <p>Quản lý các đơn đặt bàn của khách hàng, kiểm tra tình trạng bàn còn trống.</p>
+            <a href="#" class="button">Quản Lý Đặt Bàn</a>
+        </div>
+
+        <div class="card">
+            <h2>Quản Lý Đơn Hàng</h2>
+            <p>Theo dõi đơn hàng và tình trạng đơn hàng của khách hàng.</p>
+            <a href="#" class="button">Quản Lý Đơn Hàng</a>
+        </div>
+
+        <div class="card">
+            <h2>Doanh Thu</h2>
+            <p>Kiểm tra báo cáo doanh thu theo ngày, tuần hoặc tháng.</p>
+            <a href="#" class="button">Xem Báo Cáo</a>
+        </div>
+    </div>
+
+</body>
+
 <style>
 body {
            font-family: 'Noto Sans', sans-serif;
@@ -65,56 +119,4 @@ body {
             background-color: #45a049;
         }
 </style>
-<body>
-
-    <header>
-        <h1>Trang Quản Lý Nhà Hàng</h1>
-        <p>Chào mừng bạn đến với hệ thống quản lý nhà hàng của chúng tôi!</p>
-    </header>
-
-    <nav>
-        <a href="#">Trang Chủ</a>
-        <a href="<%=request.getContextPath()%>/menu">Quản Lý Món Ăn</a>
-        <a href="#">Đặt Bàn</a>
-        <a href="#">Quản Lý Đơn Hàng</a>
-        <a href="#">Quản Lý Hóa Đơn</a> 
-        <a href="#">Doanh Thu</a>
-        <a href="#">Nhân Viên</a>
-        <a href="#">Cài Đặt</a>
-        <a href="<%=request.getContextPath()%>/order">Đặt món</a>
-        
-    </nav>
-
-    <div class="container">
-        <div class="card">
-            <h2>Thông Báo</h2>
-            <p>Hệ thống đang vận hành ổn định. Chưa có đơn hàng chưa được xử lý.</p>
-        </div>
-
-        <div class="card">
-            <h2>Quản Lý Món Ăn</h2>
-            <p>Thêm, sửa, xóa các món ăn trong menu nhà hàng của bạn.</p>
-            <a href="<%=request.getContextPath()%>/menu" class="button">Quản Lý Món Ăn</a>
-        </div>
-
-        <div class="card">
-            <h2>Quản Lý Đặt Bàn</h2>
-            <p>Quản lý các đơn đặt bàn của khách hàng, kiểm tra tình trạng bàn còn trống.</p>
-            <a href="#" class="button">Quản Lý Đặt Bàn</a>
-        </div>
-
-        <div class="card">
-            <h2>Quản Lý Đơn Hàng</h2>
-            <p>Theo dõi đơn hàng và tình trạng đơn hàng của khách hàng.</p>
-            <a href="#" class="button">Quản Lý Đơn Hàng</a>
-        </div>
-
-        <div class="card">
-            <h2>Doanh Thu</h2>
-            <p>Kiểm tra báo cáo doanh thu theo ngày, tuần hoặc tháng.</p>
-            <a href="#" class="button">Xem Báo Cáo</a>
-        </div>
-    </div>
-
-</body>
 </html>

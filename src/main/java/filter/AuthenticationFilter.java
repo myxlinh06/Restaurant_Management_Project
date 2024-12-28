@@ -45,6 +45,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		excludeRequests.add(new String("/register"));
 		excludeRequests.add(new String("/.js"));
 		excludeRequests.add(new String("/.css"));
+		excludeRequests.add(new String("/web"));
 	}
 
 	private boolean isValidRequest(String request) {
